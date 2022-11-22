@@ -21,9 +21,11 @@ public class TennisGame
     public String getScore() {
         if (isDeuce()) {
             return DEUCE;
-        } else if (isAdvance()) {
+        }
+        if (isAdvance()) {
             return ADVANTAGE + getWinningPlayer();
-        } else if (isWin()) {
+        }
+        if (isWin()) {
             return WIN + getWinningPlayer();
         }
         return getMessageFromPoints();
@@ -51,6 +53,7 @@ public class TennisGame
     private boolean isTie() {
         return playerOne == playerTwo;
     }
+
     private int getWinningPlayer() {
         return playerOne > playerTwo ? 1 : 2;
     }
