@@ -28,7 +28,10 @@ public class TennisGame
         if (isWin()) {
             return WIN + getWinningPlayer();
         }
-        return getMessageFromPoints();
+        if (isTie()) {
+            return POINTS[playerOne] + ALL;
+        }
+        return String.join("-", POINTS[playerOne], POINTS[playerTwo]);
     }
 
     private boolean isWin() {
@@ -41,13 +44,6 @@ public class TennisGame
 
     private boolean isAdvance() {
         return Math.abs(playerOne - playerTwo) == 1 && playerOne >= 3 && playerTwo >= 3;
-    }
-
-    private String getMessageFromPoints() {
-        if (isTie()) {
-            return POINTS[playerOne] + ALL;
-        }
-        return String.join("-", POINTS[playerOne], POINTS[playerTwo]);
     }
 
     private boolean isTie() {
