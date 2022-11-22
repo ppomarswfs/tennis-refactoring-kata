@@ -10,8 +10,8 @@ public class TennisGame
     private static final String PLAYER_ONE = "player1";
     private static final String ALL = "-All";
     private static final String DEUCE = "Deuce";
-    private static final String ADVANTAGE = "Advantage ";
-    private static final String WIN = "Win for ";
+    private static final String ADVANTAGE = "Advantage player";
+    private static final String WIN = "Win for player";
 
     private int playerOne = 0;
     private int playerTwo = 0;
@@ -19,31 +19,26 @@ public class TennisGame
     public TennisGame(String player1Name, String player2Name) {}
 
     public String getScore() {
-        if (isWinnerOrDeuceOrAdvance()) {
-            return getMessageWithoutPoints();
+        if (isDeuce()) {
+            return DEUCE;
+        } else if (isAdvance()) {
+            return ADVANTAGE + getWinningPlayer();
+        } else if (isWin()) {
+            return WIN + getWinningPlayer();
         }
         return getMessageFromPoints();
     }
 
-    private boolean isWinnerOrDeuceOrAdvance() {
-        return playerOne > 3 || playerTwo > 3 || (playerOne == 3 && playerTwo == 3);
+    private boolean isWin() {
+        return Math.abs(playerOne - playerTwo) >= 2 && (playerOne > 3 || playerTwo > 3);
     }
 
-    private String getMessageWithoutPoints() {
-        if (isTie()) {
-            return DEUCE;
-        } else if (isAdvance()) {
-            return ADVANTAGE + getWinningPlayer();
-        }
-        return WIN + getWinningPlayer();
-    }
-
-    private String getWinningPlayer() {
-        return "player" + (isWinningPlayerOne() ? 1 : 2);
+    private boolean isDeuce() {
+        return isTie() && (playerOne >= 3);
     }
 
     private boolean isAdvance() {
-        return Math.abs(playerOne - playerTwo) == 1;
+        return Math.abs(playerOne - playerTwo) == 1 && playerOne >= 3 && playerTwo >= 3;
     }
 
     private String getMessageFromPoints() {
@@ -56,9 +51,8 @@ public class TennisGame
     private boolean isTie() {
         return playerOne == playerTwo;
     }
-
-    private boolean isWinningPlayerOne() {
-        return playerOne > playerTwo;
+    private int getWinningPlayer() {
+        return playerOne > playerTwo ? 1 : 2;
     }
 
     public void wonPoint(String player) {

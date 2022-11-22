@@ -48,7 +48,8 @@ class TennisGameTest {
                 Arguments.of(6, 4, "Win for player1"),
                 Arguments.of(4, 6, "Win for player2"),
                 Arguments.of(16, 14, "Win for player1"),
-                Arguments.of(14, 16, "Win for player2"));
+                Arguments.of(14, 16, "Win for player2"),
+                Arguments.of(6, 6, "Deuce"));
     }
 
     private void checkAllScores(TennisGame game, int player1Score, int player2Score, String expectedScore) {
