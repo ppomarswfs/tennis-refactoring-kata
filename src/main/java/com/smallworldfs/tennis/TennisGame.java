@@ -1,7 +1,5 @@
 package com.smallworldfs.tennis;
 
-import java.text.MessageFormat;
-
 public class TennisGame
 
 {
