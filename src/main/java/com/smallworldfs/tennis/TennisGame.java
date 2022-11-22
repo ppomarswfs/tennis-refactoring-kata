@@ -4,109 +4,52 @@ public class TennisGame
 
 {
 
-    public int P1point = 0;
-    public int P2point = 0;
+    private static final String[] points = {"Love", "Fifteen", "Thirty", "Forty"};
+    private static final String[] results = {"Deuce", "Advantage ", "Win for "};
 
-    public String P1res = "";
-    public String P2res = "";
-    private String player1Name;
-    private String player2Name;
+    private Player playerOne;
+    private Player playerTwo;
 
     public TennisGame(String player1Name, String player2Name) {
-        this.player1Name = player1Name;
-        this.player2Name = player2Name;
+        this.playerOne = new Player(1);
+        this.playerTwo = new Player(2);
     }
-
     public String getScore() {
-        String score = "";
-        if (P1point == P2point && P1point < 4) {
-            if (P1point == 0)
-                score = "Love";
-            if (P1point == 1)
-                score = "Fifteen";
-            if (P1point == 2)
-                score = "Thirty";
-            score += "-All";
+        int difference = playerOne.getPoints() - playerTwo.getPoints();
+        if (isWinnerOrDeuce(playerOne.getPoints(), playerTwo.getPoints())) {
+            return getMessage(difference) + getWinningPlayer(difference);
         }
-        if (P1point == P2point && P1point >= 3)
-            score = "Deuce";
-
-        if (P1point > 0 && P2point == 0) {
-            if (P1point == 1)
-                P1res = "Fifteen";
-            if (P1point == 2)
-                P1res = "Thirty";
-            if (P1point == 3)
-                P1res = "Forty";
-
-            P2res = "Love";
-            score = P1res + "-" + P2res;
+        if (isTie(difference)) {
+            return points[playerOne.getPoints()] + "-All";
         }
-        if (P2point > 0 && P1point == 0) {
-            if (P2point == 1)
-                P2res = "Fifteen";
-            if (P2point == 2)
-                P2res = "Thirty";
-            if (P2point == 3)
-                P2res = "Forty";
-
-            P1res = "Love";
-            score = P1res + "-" + P2res;
+        return points[playerOne.getPoints()] + "-" + points[playerTwo.getPoints()];
+    }
+    private boolean isTie(int difference) {
+        return difference == 0;
+    }
+    private String getWinningPlayer(int difference) {
+        if (isTie(difference)) {
+            return "";
         }
-
-        if (P1point > P2point && P1point < 4) {
-            if (P1point == 2)
-                P1res = "Thirty";
-            if (P1point == 3)
-                P1res = "Forty";
-            if (P2point == 1)
-                P2res = "Fifteen";
-            if (P2point == 2)
-                P2res = "Thirty";
-            score = P1res + "-" + P2res;
-        }
-        if (P2point > P1point && P2point < 4) {
-            if (P2point == 2)
-                P2res = "Thirty";
-            if (P2point == 3)
-                P2res = "Forty";
-            if (P1point == 1)
-                P1res = "Fifteen";
-            if (P1point == 2)
-                P1res = "Thirty";
-            score = P1res + "-" + P2res;
-        }
-
-        if (P1point > P2point && P2point >= 3) {
-            score = "Advantage player1";
-        }
-
-        if (P2point > P1point && P1point >= 3) {
-            score = "Advantage player2";
-        }
-
-        if (P1point >= 4 && P2point >= 0 && (P1point - P2point) >= 2) {
-            score = "Win for player1";
-        }
-        if (P2point >= 4 && P1point >= 0 && (P2point - P1point) >= 2) {
-            score = "Win for player2";
-        }
-        return score;
+        return "player" + (isWinningPlayerOne(difference) ? 1 : 2);
     }
 
-
-    public void P1Score() {
-        P1point++;
+    private boolean isWinningPlayerOne(int difference) {
+        return difference > 0;
     }
 
-    public void P2Score() {
-        P2point++;
+    private String getMessage(int index) {
+        return results[Math.min(2, Math.abs(index))];
     }
 
+    private boolean isWinnerOrDeuce(int points, int points1) {
+        return points > 3 || points1 > 3 || (points == 3 && points1 ==3);
+    }
     public void wonPoint(String player) {
-        if (player == "player1")
-            P1Score();
-        else
-            P2Score();
+        if (player != null && player.equals(playerOne.getPositionPlayer())) {
+            playerOne.addPoints();
+        } else {
+            playerTwo.addPoints();
+        }
     }
 }
