@@ -3,60 +3,23 @@ package com.smallworldfs.tennis;
 public class TennisGame
 
 {
+    private Player playerOne;
+    private Player playerTwo;
 
-    private static final String[] POINTS = {"Love", "Fifteen", "Thirty", "Forty"};
-    private static final String PLAYER_ONE = "player1";
-    private static final String ALL = "-All";
-    private static final String DEUCE = "Deuce";
-    private static final String ADVANTAGE = "Advantage player";
-    private static final String WIN = "Win for player";
 
-    private int playerOne = 0;
-    private int playerTwo = 0;
-
-    public TennisGame(String player1Name, String player2Name) {}
+    public TennisGame(String player1Name, String player2Name) {
+        playerOne = new Player(player1Name, 1);
+        playerTwo = new Player(player2Name, 2);
+    }
 
     public String getScore() {
-        if (isDeuce()) {
-            return DEUCE;
-        }
-        if (isAdvance()) {
-            return ADVANTAGE + getWinningPlayer();
-        }
-        if (isWin()) {
-            return WIN + getWinningPlayer();
-        }
-        if (isTie()) {
-            return POINTS[playerOne] + ALL;
-        }
-        return String.join("-", POINTS[playerOne], POINTS[playerTwo]);
+        return ScoreBoard.printScore(playerOne.getPoints(),playerTwo.getPoints());
     }
-
-    private boolean isWin() {
-        return Math.abs(playerOne - playerTwo) >= 2 && (playerOne > 3 || playerTwo > 3);
-    }
-
-    private boolean isDeuce() {
-        return isTie() && (playerOne >= 3);
-    }
-
-    private boolean isAdvance() {
-        return Math.abs(playerOne - playerTwo) == 1 && playerOne >= 3 && playerTwo >= 3;
-    }
-
-    private boolean isTie() {
-        return playerOne == playerTwo;
-    }
-
-    private int getWinningPlayer() {
-        return playerOne > playerTwo ? 1 : 2;
-    }
-
     public void wonPoint(String player) {
-        if (PLAYER_ONE.equals(player)) {
-            playerOne++;
+        if (playerOne.isLocalPlayer(player)) {
+            playerOne.addPoint();
         } else {
-            playerTwo++;
+            playerTwo.addPoint();
         }
     }
 }
