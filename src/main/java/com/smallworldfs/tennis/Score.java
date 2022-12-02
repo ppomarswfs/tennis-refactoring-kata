@@ -1,25 +1,43 @@
 package com.smallworldfs.tennis;
 
-public final class Score {
+public  class Score {
 
-    protected static boolean isTie(int playerOne, int playerTwo) {
-        return playerOne == playerTwo;
+    private int localPlayerPoints;
+    private int foreignPlayerPoints;
+
+    public int getLocalPlayerPoints() {
+        return localPlayerPoints;
     }
 
-    protected static boolean isDeuce(int playerOne, int playerTwo) {
-        return isTie(playerOne, playerTwo) && (playerOne >= 3);
+    public int getForeignPlayerPoints() {
+        return foreignPlayerPoints;
     }
 
-    protected static boolean isWon(int playerOne, int playerTwo) {
-        return Math.abs(playerOne - playerTwo) >= 2 && (playerOne > 3 || playerTwo > 3);
+    protected boolean isTie() {
+        return localPlayerPoints == foreignPlayerPoints;
     }
 
-    protected static boolean isAdvance(int playerOne, int playerTwo) {
-        return Math.abs(playerOne - playerTwo) == 1 && playerOne >= 3 && playerTwo >= 3;
+    protected  boolean isDeuce() {
+        return isTie() && (localPlayerPoints >= 3);
     }
 
-    protected static int getWinningPlayer(int playerOne, int playerTwo) {
-        return playerOne > playerTwo ? 1 : 2;
+    protected  boolean isWon() {
+        return Math.abs(localPlayerPoints - foreignPlayerPoints) >= 2 && (localPlayerPoints > 3 || foreignPlayerPoints > 3);
+    }
+
+    protected  boolean isAdvance() {
+        return Math.abs(localPlayerPoints - foreignPlayerPoints) == 1 && localPlayerPoints >= 3 && foreignPlayerPoints >= 3;
+    }
+
+    protected  int getWinningPlayer() {
+        return localPlayerPoints > foreignPlayerPoints ? 1 : 2;
+    }
+
+    protected void addPointLocal(){
+        localPlayerPoints++;
+    }
+    protected void addPointForeign(){
+        foreignPlayerPoints++;
     }
 
 }

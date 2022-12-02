@@ -12,20 +12,20 @@ public final class ScoreBoard {
     private static final String POINTS_SEPARATOR = "-";
 
 
-    public static String printScore(int pointsOne, int pointsTwo) {
-        if (Score.isDeuce(pointsOne, pointsTwo)) {
+    public static String printScore(Score score) {
+        if (score.isDeuce()) {
             return ScoreBoard.DEUCE;
         }
-        if (Score.isAdvance(pointsOne, pointsTwo)) {
-            return ScoreBoard.ADVANTAGE + Score.getWinningPlayer(pointsOne, pointsTwo);
+        if (score.isAdvance()) {
+            return ScoreBoard.ADVANTAGE + score.getWinningPlayer();
         }
-        if (Score.isWon(pointsOne, pointsTwo)) {
-            return ScoreBoard.WIN + Score.getWinningPlayer(pointsOne, pointsTwo);
+        if (score.isWon()) {
+            return ScoreBoard.WIN + score.getWinningPlayer();
         }
-        if (Score.isTie(pointsOne, pointsTwo)) {
-            return ScoreBoard.POINTS[pointsOne] + ScoreBoard.ALL;
+        if (score.isTie()) {
+            return ScoreBoard.POINTS[score.getLocalPlayerPoints()] + ScoreBoard.ALL;
         }
-        return String.join(POINTS_SEPARATOR, ScoreBoard.POINTS[pointsOne], ScoreBoard.POINTS[pointsTwo]);
+        return String.join(POINTS_SEPARATOR, ScoreBoard.POINTS[score.getLocalPlayerPoints()], ScoreBoard.POINTS[score.getForeignPlayerPoints()]);
     }
 
 }
